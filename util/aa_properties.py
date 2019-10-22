@@ -1,14 +1,14 @@
 import pandas
 import os
 
-path, _ = os.path.split(__file__)
-kidera_factors = pandas.read_csv(os.path.join(path, 'kidera.csv'),
+path, _ = os.path.split(__package__)
+kidera_factors = pandas.read_csv(os.path.join(path, 'data', 'kidera.csv'),
                                  header=None,
                                  index_col=0)
-aa_properties = pandas.read_csv(os.path.join(path, 'aa_property_table.csv'),
+aa_properties = pandas.read_csv(os.path.join(path, 'data', 'aa_property_table.csv'),
                                  header=0,
                                  index_col=0)
-aa_hydrophobicity = pandas.read_csv(os.path.join(path, 'hydrophobicity.csv'))
+aa_hydrophobicity = pandas.read_csv(os.path.join(path, 'data', 'hydrophobicity.csv'))
 
 symbol_lookup = { 'ALA': 'A', 'ARG': 'R',
                   'ASN': 'N', 'ASP': 'D',
@@ -38,6 +38,7 @@ def score_sequence(sequence, norm=False):
     else:
         return kidera_factors.loc[list(sequence)].sum()
 
+
 def aaprop_sequence(sequence, norm=False):
     """
     Scores most popular amino acid properties for given sequence including
@@ -50,6 +51,7 @@ def aaprop_sequence(sequence, norm=False):
         return aa_properties.loc[list(sequence)].sum() / len(sequence)
     else:
         return aa_properties.loc[list(sequence)].sum()
+
 
 def score_hydrophobicity_sequence(sequence, scale="Kyte-Doolittle", norm=False):
     """
