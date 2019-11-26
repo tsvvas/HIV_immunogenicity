@@ -32,8 +32,9 @@ def get_epitopes(file_name):
 def filter_epitopes(file_name):
     df = pd.read_csv(file_name, compression="zip", header=[0, 1])
 
-    # filtering by epitope type, host and disease
-    df = df[(df.Epitope['Object Type'] == 'Linear peptide') &
+    # filtering by epitope type, host, disease and MHC
+    df = df[(df.MHC['Class'] == 'I') &
+            (df.Epitope['Object Type'] == 'Linear peptide') &
             (df.Epitope['Organism Name'] != 'Homo sapiens') &
             (df.Host.Name.isin(['Homo sapiens', 'Homo sapiens Black', 'Homo sapiens Caucasian'])) &
             (df['1st in vivo Process']['Process Type'] == 'Occurrence of infectious disease')]
